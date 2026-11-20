@@ -1,0 +1,32 @@
+# Governance settings the checker reads. Change these, not the code.
+
+roles:
+  - Head of Origination
+  - Head of Permitting
+  - Head of Grid
+  - Head of Project Development
+  - Head of Construction
+  - Head of Asset Operations
+  - Head of Talent Acquisition
+  - HR Operations Lead
+  - Head of Procurement
+  - Head of Accounting
+  - General Counsel
+  - Process Excellence Lead
+
+lifecycle:
+  # allowed status values, in order, and which transitions are allowed
+  statuses: [draft, in_review, released, retired]
+  transitions:
+    draft: [in_review]
+    in_review: [draft, released]
+    released: [in_review, retired]
+    retired: []
+
+rules:
+  max_review_interval_months: 12        # released processes are reviewed at least once a year
+  duplicate_name_similarity: 0.6        # word overlap above this flags a possible duplicate
+  max_flow_nodes_per_model: 30          # above this, split into sub-processes
+  released_models_must_have_no_errors: true
+
+approved_task_verbs: [approve, assess, assign, book, check, close, collect, complete, confirm, create, decide, define, deliver, diagnose, dispatch, document, enter, escalate, fix, hand, hire, hold, inform, interview, issue, log, match, notify, order, pay, plan, post, prepare, provision, publish, receive, record, register, release, remove, request, resolve, restore, return, review, revoke, run, schedule, screen, send, set, sign, update, verify]

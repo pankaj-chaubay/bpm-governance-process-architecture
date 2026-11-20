@@ -1,0 +1,25 @@
+# Business capability map. A capability is what the company must be able to do,
+# independent of who does it or how. Processes realise capabilities; systems support them.
+# maturity: 1 initial, 2 repeatable, 3 defined, 4 managed, 5 optimising (self-assessed)
+# importance: how much the capability matters for the strategy (1-5)
+
+capabilities:
+  - {id: C01.1, name: Site acquisition, domain: Development, maturity: 3, importance: 5}
+  - {id: C01.2, name: Permitting, domain: Development, maturity: 2, importance: 5}
+  - {id: C01.3, name: Grid connection management, domain: Development, maturity: 2, importance: 5}
+  - {id: C01.4, name: Project handover, domain: Development, maturity: 2, importance: 4}
+  - {id: C02.1, name: Construction planning, domain: Construction, maturity: 3, importance: 4}
+  - {id: C02.2, name: Site management, domain: Construction, maturity: 3, importance: 4}
+  - {id: C02.3, name: Commissioning, domain: Construction, maturity: 2, importance: 4}
+  - {id: C03.1, name: Asset monitoring, domain: Operations, maturity: 4, importance: 5}
+  - {id: C03.2, name: Maintenance management, domain: Operations, maturity: 3, importance: 5}
+  - {id: C03.3, name: Performance reporting, domain: Operations, maturity: 3, importance: 3}
+  - {id: C04.1, name: Talent acquisition, domain: People, maturity: 3, importance: 4}
+  - {id: C04.2, name: Onboarding, domain: People, maturity: 2, importance: 3}
+  - {id: C04.3, name: Employee lifecycle administration, domain: People, maturity: 3, importance: 3}
+  - {id: C05.1, name: Procurement, domain: Finance, maturity: 4, importance: 4}
+  - {id: C05.2, name: Contract management, domain: Finance, maturity: 2, importance: 4}
+  - {id: C05.3, name: Financial close, domain: Finance, maturity: 4, importance: 3}
+  - {id: C06.1, name: Data quality management, domain: Governance, maturity: 1, importance: 4}
+  - {id: C06.2, name: Process management, domain: Governance, maturity: 3, importance: 4}
+  - {id: C06.3, name: Risk management, domain: Governance, maturity: 2, importance: 4}

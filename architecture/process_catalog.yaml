@@ -1,0 +1,77 @@
+# Process catalog of Aurora Renewables, a fictional wind and solar developer.
+# Level 1 = process area, level 2 = process group, level 3 = end-to-end process.
+# Each level-3 process has one accountable owner role, a lifecycle status and a review date.
+
+company: Aurora Renewables (fictional)
+as_of: "2026-11-20"
+
+areas:
+  - id: P01
+    name: Develop projects
+    type: core
+    groups:
+      - id: P01.1
+        name: Originate and secure sites
+        processes:
+          - {id: P01.1.1, name: Screen and secure land, owner: Head of Origination, status: released, version: "2.0", next_review: "2027-03-31", capabilities: [C01.1], systems: [GIS, CRM]}
+          - {id: P01.1.2, name: Manage landowner agreements, owner: Head of Origination, status: released, version: "1.3", next_review: "2027-01-31", capabilities: [C01.1, C05.2], systems: [CLM]}
+      - id: P01.2
+        name: Permit and design
+        processes:
+          - {id: P01.2.1, name: Obtain permits, owner: Head of Permitting, status: released, version: "1.1", next_review: "2026-09-30", capabilities: [C01.2], systems: [DMS]}
+          - {id: P01.2.2, name: Secure grid connection, owner: Head of Grid, status: in_review, version: "0.9", next_review: "2027-02-28", capabilities: [C01.3], systems: [DMS]}
+          - {id: P01.2.3, name: Hand over project from development to construction, owner: Head of Project Development, status: released, version: "1.0", next_review: "2027-05-31", capabilities: [C01.4, C02.1], systems: [ERP, DMS], model: project_handover.bpmn}
+  - id: P02
+    name: Build assets
+    type: core
+    groups:
+      - id: P02.1
+        name: Construct
+        processes:
+          - {id: P02.1.1, name: Plan construction, owner: Head of Construction, status: released, version: "1.4", next_review: "2027-04-30", capabilities: [C02.1], systems: [ERP, Scheduling]}
+          - {id: P02.1.2, name: Manage construction site, owner: Head of Construction, status: released, version: "1.2", next_review: "2027-04-30", capabilities: [C02.2], systems: [ERP]}
+          - {id: P02.1.3, name: Commission and hand over plant, owner: Head of Construction, status: draft, version: "0.3", next_review: "2027-06-30", capabilities: [C02.3, C03.1], systems: [ERP, SCADA]}
+  - id: P03
+    name: Operate assets
+    type: core
+    groups:
+      - id: P03.1
+        name: Operate and maintain
+        processes:
+          - {id: P03.1.1, name: Handle plant incident, owner: Head of Asset Operations, status: released, version: "2.1", next_review: "2027-02-28", capabilities: [C03.1, C03.2], systems: [SCADA, CMMS], model: plant_incident.bpmn}
+          - {id: P03.1.2, name: Plan preventive maintenance, owner: Head of Asset Operations, status: released, version: "1.0", next_review: "2027-03-31", capabilities: [C03.2], systems: [CMMS]}
+          - {id: P03.1.3, name: Report plant performance, owner: Head of Asset Operations, status: retired, version: "1.5", next_review: null, capabilities: [C03.3], systems: [BI]}
+  - id: P04
+    name: Manage people
+    type: support
+    groups:
+      - id: P04.1
+        name: Hire to retire
+        processes:
+          - {id: P04.1.1, name: Recruit and onboard employee, owner: Head of Talent Acquisition, status: released, version: "1.2", next_review: "2027-01-31", capabilities: [C04.1, C04.2], systems: [HRIS, ATS], model: recruit_to_onboard.bpmn}
+          - {id: P04.1.2, name: Onboard and recruit new employees, owner: HR Operations Lead, status: draft, version: "0.2", next_review: "2027-03-31", capabilities: [C04.2], systems: [HRIS]}
+          - {id: P04.1.3, name: Manage employee changes, owner: HR Operations Lead, status: released, version: "1.1", next_review: "2027-02-28", capabilities: [C04.3], systems: [HRIS]}
+          - {id: P04.1.4, name: Offboard employee, owner: HR Operations Lead, status: in_review, version: "0.8", next_review: "2027-01-31", capabilities: [C04.3], systems: [HRIS, IAM], model: offboard_employee.bpmn}
+  - id: P05
+    name: Manage finance and procurement
+    type: support
+    groups:
+      - id: P05.1
+        name: Procure to pay
+        processes:
+          - {id: P05.1.1, name: Procure goods and services, owner: Head of Procurement, status: released, version: "3.0", next_review: "2027-05-31", capabilities: [C05.1], systems: [ERP], model: procure_to_pay.bpmn}
+          - {id: P05.1.2, name: Manage supplier master data, owner: Head of Procurement, status: released, version: "1.0", next_review: "2026-10-31", capabilities: [C05.1, C06.1], systems: [ERP, MDG]}
+      - id: P05.2
+        name: Record to report
+        processes:
+          - {id: P05.2.1, name: Close the month, owner: Head of Accounting, status: released, version: "2.2", next_review: "2027-03-31", capabilities: [C05.3], systems: [ERP]}
+          - {id: P05.2.2, name: Manage contracts, owner: General Counsel, status: released, version: "1.0", next_review: "2027-06-30", capabilities: [C05.2], systems: [CLM]}
+  - id: P06
+    name: Govern and manage data
+    type: management
+    groups:
+      - id: P06.1
+        name: Process and data governance
+        processes:
+          - {id: P06.1.1, name: Manage process lifecycle, owner: Process Excellence Lead, status: released, version: "1.1", next_review: "2027-04-30", capabilities: [C06.2], systems: [BPM suite]}
+          - {id: P06.1.2, name: Manage data quality, owner: , status: draft, version: "0.1", next_review: "2027-04-30", capabilities: [C06.1], systems: [DWH]}
