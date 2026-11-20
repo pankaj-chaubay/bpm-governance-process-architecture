@@ -1,0 +1,20 @@
+capability,domain,importance,maturity,gap,processes,released,systems,priority
+C01.2 Permitting,Development,5,2,3,1,1,DMS,high
+C01.3 Grid connection management,Development,5,2,3,1,0,DMS,high
+C06.1 Data quality management,Governance,4,1,3,2,1,"DWH, ERP, MDG",high
+C01.1 Site acquisition,Development,5,3,2,2,2,"CLM, CRM, GIS",high
+C01.4 Project handover,Development,4,2,2,1,1,"DMS, ERP",high
+C02.3 Commissioning,Construction,4,2,2,1,0,"ERP, SCADA",high
+C03.2 Maintenance management,Operations,5,3,2,2,2,"CMMS, SCADA",high
+C05.2 Contract management,Finance,4,2,2,2,2,CLM,high
+C06.3 Risk management,Governance,4,2,2,0,0,,high
+C02.1 Construction planning,Construction,4,3,1,2,2,"DMS, ERP, Scheduling",medium
+C02.2 Site management,Construction,4,3,1,1,1,ERP,medium
+C03.1 Asset monitoring,Operations,5,4,1,2,1,"CMMS, ERP, SCADA",medium
+C04.1 Talent acquisition,People,4,3,1,1,1,"ATS, HRIS",medium
+C04.2 Onboarding,People,3,2,1,2,1,"ATS, HRIS",medium
+C06.2 Process management,Governance,4,3,1,1,1,BPM suite,medium
+C03.3 Performance reporting,Operations,3,3,0,0,0,,low
+C04.3 Employee lifecycle administration,People,3,3,0,2,1,"HRIS, IAM",low
+C05.1 Procurement,Finance,4,4,0,2,2,"ERP, MDG",low
+C05.3 Financial close,Finance,3,4,-1,1,1,ERP,low

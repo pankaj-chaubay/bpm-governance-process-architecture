@@ -1,0 +1,13 @@
+element,offboard_employee.bpmn,plant_incident.bpmn,procure_to_pay.bpmn,project_handover.bpmn,recruit_to_onboard.bpmn,total
+sequenceFlow,9,14,16,10,20,69
+userTask,5,7,5,5,8,30
+lane,3,3,4,3,4,17
+exclusiveGateway,2,4,3,2,3,14
+endEvent,1,1,1,2,2,7
+participant,1,1,1,1,1,5
+startEvent,1,1,1,1,1,5
+serviceTask,1,0,2,0,1,4
+parallelGateway,0,0,0,0,2,2
+sendTask,0,0,1,0,0,1
+task,0,0,1,0,0,1
+receiveTask,0,0,1,0,0,1

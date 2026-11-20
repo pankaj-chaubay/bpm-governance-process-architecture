@@ -1,0 +1,11 @@
+file,rule,severity,element,message
+process_catalog.yaml,GOV003,warning,P01.2.1 Obtain permits,Review date has passed: due 2026-09-30
+process_catalog.yaml,GOV003,warning,P05.1.2 Manage supplier master data,Review date has passed: due 2026-10-31
+process_catalog.yaml,GOV001,error,P06.1.2 Manage data quality,"Process has no owner, or the owner is not a defined role: no owner"
+process_catalog.yaml,GOV007,warning,P04.1.2 Onboard and recruit new employees,Possible duplicate of another process: P04.1.1 Recruit and onboard employee (100% word overlap)
+offboard_employee.bpmn,BPM009,warning,term (Termination letter),Task name does not start with an approved verb
+offboard_employee.bpmn,BPM010,warning,g_ret (Company equipment issued),Deciding gateway name is not a question
+offboard_employee.bpmn,BPM005,error,Flow_5,Outgoing flow of a deciding gateway has no label: from g_ret (Company equipment issued)
+offboard_employee.bpmn,BPM003,error,exit (Hold exit interview),Flow node has no incoming flow
+offboard_employee.bpmn,BPM004,error,exit (Hold exit interview),Flow node has no outgoing flow
+offboard_employee.bpmn,BPM011,warning,end,Event has no name

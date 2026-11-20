@@ -1,0 +1,13 @@
+{
+  "processes_total": 21,
+  "processes_live": 20,
+  "by_status": "15 released, 3 draft, 2 in_review, 1 retired",
+  "owner_coverage_pct": 95.0,
+  "overdue_reviews": 2,
+  "modelled_in_bpmn_pct": 25.0,
+  "models_without_errors": "4 of 5",
+  "governance_errors": 1,
+  "governance_warnings": 3,
+  "model_errors": 3,
+  "model_warnings": 3
+}
