@@ -1,0 +1,44 @@
+id: P04.1.1
+name: Recruit and onboard employee
+owner: Head of Talent Acquisition
+version: "1.2"
+lanes: [Hiring manager, Recruiter, HR operations, IT service desk]
+nodes:
+  - {id: start, type: startEvent, name: Vacancy approved, lane: Hiring manager}
+  - {id: req, type: userTask, name: Create job requisition, lane: Hiring manager}
+  - {id: pub, type: userTask, name: Publish job advert, lane: Recruiter}
+  - {id: scr, type: userTask, name: Screen applications, lane: Recruiter}
+  - {id: g_sl, type: exclusiveGateway, name: "Suitable candidates?", lane: Recruiter}
+  - {id: int, type: userTask, name: Interview candidates, lane: Hiring manager}
+  - {id: g_off, type: exclusiveGateway, name: "Candidate selected?", lane: Hiring manager}
+  - {id: offer, type: userTask, name: Send offer, lane: Recruiter}
+  - {id: g_acc, type: exclusiveGateway, name: "Offer accepted?", lane: Recruiter}
+  - {id: split, type: parallelGateway, name: "", lane: HR operations}
+  - {id: contract, type: userTask, name: Issue employment contract, lane: HR operations}
+  - {id: record, type: serviceTask, name: Create employee record, lane: HR operations}
+  - {id: it, type: userTask, name: Provision laptop and accounts, lane: IT service desk}
+  - {id: join, type: parallelGateway, name: "", lane: HR operations}
+  - {id: day1, type: userTask, name: Run first-day onboarding, lane: Hiring manager}
+  - {id: end_ok, type: endEvent, name: Employee onboarded, lane: Hiring manager}
+  - {id: end_no, type: endEvent, name: Vacancy closed unfilled, lane: Recruiter}
+flows:
+  - [start, req]
+  - [req, pub]
+  - [pub, scr]
+  - [scr, g_sl]
+  - [g_sl, int, "Yes"]
+  - [g_sl, pub, "No"]
+  - [int, g_off]
+  - [g_off, offer, "Yes"]
+  - [g_off, end_no, "No"]
+  - [offer, g_acc]
+  - [g_acc, split, "Yes"]
+  - [g_acc, end_no, "No"]
+  - [split, contract]
+  - [split, record]
+  - [split, it]
+  - [contract, join]
+  - [record, join]
+  - [it, join]
+  - [join, day1]
+  - [day1, end_ok]

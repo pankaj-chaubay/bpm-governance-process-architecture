@@ -1,0 +1,38 @@
+id: P05.1.1
+name: Procure goods and services
+owner: Head of Procurement
+version: "3.0"
+lanes: [Requester, Procurement, Supplier, Accounts payable]
+nodes:
+  - {id: start, type: startEvent, name: Need identified, lane: Requester}
+  - {id: pr, type: userTask, name: Create purchase requisition, lane: Requester}
+  - {id: g_val, type: exclusiveGateway, name: "Above approval limit?", lane: Requester}
+  - {id: appr, type: userTask, name: Approve purchase requisition, lane: Procurement}
+  - {id: g_merge, type: exclusiveGateway, name: "", lane: Procurement}
+  - {id: po, type: userTask, name: Create purchase order, lane: Procurement}
+  - {id: send, type: sendTask, name: Send purchase order, lane: Procurement}
+  - {id: deliver, type: task, name: Deliver goods or service, lane: Supplier}
+  - {id: gr, type: userTask, name: Confirm goods receipt, lane: Requester}
+  - {id: inv, type: receiveTask, name: Receive invoice, lane: Accounts payable}
+  - {id: match, type: serviceTask, name: Match invoice to order and receipt, lane: Accounts payable}
+  - {id: g_match, type: exclusiveGateway, name: "Three-way match OK?", lane: Accounts payable}
+  - {id: clar, type: userTask, name: Resolve invoice difference, lane: Procurement}
+  - {id: pay, type: serviceTask, name: Pay invoice, lane: Accounts payable}
+  - {id: end, type: endEvent, name: Invoice paid, lane: Accounts payable}
+flows:
+  - [start, pr]
+  - [pr, g_val]
+  - [g_val, appr, "Yes"]
+  - [g_val, g_merge, "No"]
+  - [appr, g_merge]
+  - [g_merge, po]
+  - [po, send]
+  - [send, deliver]
+  - [deliver, gr]
+  - [gr, inv]
+  - [inv, match]
+  - [match, g_match]
+  - [g_match, pay, "Yes"]
+  - [g_match, clar, "No"]
+  - [clar, match]
+  - [pay, end]

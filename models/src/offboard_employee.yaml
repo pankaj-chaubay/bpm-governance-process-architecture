@@ -1,0 +1,27 @@
+# In review: the checker should find the open points below before release.
+id: P04.1.4
+name: Offboard employee
+owner: HR Operations Lead
+version: "0.8"
+lanes: [Line manager, HR operations, IT service desk]
+nodes:
+  - {id: start, type: startEvent, name: Resignation received, lane: Line manager}
+  - {id: notify, type: userTask, name: Inform HR operations, lane: Line manager}
+  - {id: term, type: userTask, name: Termination letter, lane: HR operations}
+  - {id: g_ret, type: exclusiveGateway, name: Company equipment issued, lane: HR operations}
+  - {id: ret, type: userTask, name: Collect equipment, lane: IT service desk}
+  - {id: g_merge, type: exclusiveGateway, name: "", lane: HR operations}
+  - {id: revoke, type: serviceTask, name: Revoke system access, lane: IT service desk}
+  - {id: final, type: userTask, name: Run final payroll, lane: HR operations}
+  - {id: exit, type: userTask, name: Hold exit interview, lane: Line manager}
+  - {id: end, type: endEvent, name: "", lane: HR operations}
+flows:
+  - [start, notify]
+  - [notify, term]
+  - [term, g_ret]
+  - [g_ret, ret, "Yes"]
+  - [g_ret, g_merge]
+  - [ret, g_merge]
+  - [g_merge, revoke]
+  - [revoke, final]
+  - [final, end]

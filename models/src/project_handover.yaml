@@ -1,0 +1,27 @@
+id: P01.2.3
+name: Hand over project from development to construction
+owner: Head of Project Development
+version: "1.0"
+lanes: [Project developer, Handover board, Construction manager]
+nodes:
+  - {id: start, type: startEvent, name: Permits and grid secured, lane: Project developer}
+  - {id: pack, type: userTask, name: Prepare handover package, lane: Project developer}
+  - {id: check, type: userTask, name: Check package completeness, lane: Construction manager}
+  - {id: g_comp, type: exclusiveGateway, name: "Package complete?", lane: Construction manager}
+  - {id: fix, type: userTask, name: Complete missing documents, lane: Project developer}
+  - {id: board, type: userTask, name: Review handover at board, lane: Handover board}
+  - {id: g_dec, type: exclusiveGateway, name: "Handover approved?", lane: Handover board}
+  - {id: sign, type: userTask, name: Sign handover protocol, lane: Construction manager}
+  - {id: end_ok, type: endEvent, name: Project in construction, lane: Construction manager}
+  - {id: end_hold, type: endEvent, name: Project on hold, lane: Handover board}
+flows:
+  - [start, pack]
+  - [pack, check]
+  - [check, g_comp]
+  - [g_comp, board, "Yes"]
+  - [g_comp, fix, "No"]
+  - [fix, check]
+  - [board, g_dec]
+  - [g_dec, sign, "Yes"]
+  - [g_dec, end_hold, "No"]
+  - [sign, end_ok]
