@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Process_P05_1_1" targetNamespace="https://example.org/aurora/processes">
+  <bpmn:collaboration id="Collab_Process_P05_1_1">
+    <bpmn:participant id="Pool_Process_P05_1_1" name="Procure goods and services" processRef="Process_P05_1_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P05_1_1" name="Procure goods and services" isExecutable="false">
+    <bpmn:documentation>Owner: Head of Procurement; Version: 3.0; Catalog ID: P05.1.1</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_Process_P05_1_1">
+      <bpmn:lane id="Lane_0" name="Requester">
+        <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>pr</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_val</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>gr</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Procurement">
+        <bpmn:flowNodeRef>appr</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>po</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>send</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>clar</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="Supplier">
+        <bpmn:flowNodeRef>deliver</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_3" name="Accounts payable">
+        <bpmn:flowNodeRef>inv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>match</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_match</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>pay</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start" name="Need identified">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="pr" name="Create purchase requisition">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_val" name="Above approval limit?">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="appr" name="Approve purchase requisition">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_merge">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="po" name="Create purchase order">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="send" name="Send purchase order">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:task id="deliver" name="Deliver goods or service">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:userTask id="gr" name="Confirm goods receipt">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:receiveTask id="inv" name="Receive invoice">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:serviceTask id="match" name="Match invoice to order and receipt">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="g_match" name="Three-way match OK?">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="clar" name="Resolve invoice difference">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="pay" name="Pay invoice">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="end" name="Invoice paid">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="pr" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="pr" targetRef="g_val" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="g_val" targetRef="appr" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="g_val" targetRef="g_merge" name="No" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="appr" targetRef="g_merge" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="g_merge" targetRef="po" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="po" targetRef="send" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="send" targetRef="deliver" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="deliver" targetRef="gr" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="gr" targetRef="inv" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="inv" targetRef="match" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="match" targetRef="g_match" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="g_match" targetRef="pay" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="g_match" targetRef="clar" name="No" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="clar" targetRef="match" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="pay" targetRef="end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Process_P05_1_1">
+    <bpmndi:BPMNPlane id="Plane_Process_P05_1_1" bpmnElement="Collab_Process_P05_1_1">
+      <bpmndi:BPMNShape id="Pool_Process_P05_1_1_di" bpmnElement="Pool_Process_P05_1_1" isHorizontal="true">
+        <dc:Bounds x="60" y="80" width="2400" height="560" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0_di" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="90" y="80" width="2370" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="90" y="220" width="2370" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_2_di" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="90" y="360" width="2370" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_3_di" bpmnElement="Lane_3" isHorizontal="true">
+        <dc:Bounds x="90" y="500" width="2370" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="202" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="pr_di" bpmnElement="pr">
+        <dc:Bounds x="325" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_val_di" bpmnElement="g_val" isMarkerVisible="true">
+        <dc:Bounds x="515" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="appr_di" bpmnElement="appr">
+        <dc:Bounds x="645" y="255" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_merge_di" bpmnElement="g_merge" isMarkerVisible="true">
+        <dc:Bounds x="835" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="po_di" bpmnElement="po">
+        <dc:Bounds x="965" y="255" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="send_di" bpmnElement="send">
+        <dc:Bounds x="1125" y="255" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="deliver_di" bpmnElement="deliver">
+        <dc:Bounds x="1285" y="395" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gr_di" bpmnElement="gr">
+        <dc:Bounds x="1445" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="inv_di" bpmnElement="inv">
+        <dc:Bounds x="1605" y="535" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="match_di" bpmnElement="match">
+        <dc:Bounds x="1765" y="535" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_match_di" bpmnElement="g_match" isMarkerVisible="true">
+        <dc:Bounds x="1955" y="545" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="clar_di" bpmnElement="clar">
+        <dc:Bounds x="2085" y="255" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="pay_di" bpmnElement="pay">
+        <dc:Bounds x="2085" y="535" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="2282" y="552" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="238" y="150" />
+        <di:waypoint x="325" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="435" y="150" />
+        <di:waypoint x="515" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="565" y="150" />
+        <di:waypoint x="605" y="150" />
+        <di:waypoint x="605" y="290" />
+        <di:waypoint x="645" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="565" y="150" />
+        <di:waypoint x="700" y="150" />
+        <di:waypoint x="700" y="290" />
+        <di:waypoint x="835" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="755" y="290" />
+        <di:waypoint x="835" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="885" y="290" />
+        <di:waypoint x="965" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="1075" y="290" />
+        <di:waypoint x="1125" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1235" y="290" />
+        <di:waypoint x="1260" y="290" />
+        <di:waypoint x="1260" y="430" />
+        <di:waypoint x="1285" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1395" y="430" />
+        <di:waypoint x="1420" y="430" />
+        <di:waypoint x="1420" y="150" />
+        <di:waypoint x="1445" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1555" y="150" />
+        <di:waypoint x="1580" y="150" />
+        <di:waypoint x="1580" y="570" />
+        <di:waypoint x="1605" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1715" y="570" />
+        <di:waypoint x="1765" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="1875" y="570" />
+        <di:waypoint x="1955" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="2005" y="570" />
+        <di:waypoint x="2085" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="2005" y="570" />
+        <di:waypoint x="2045" y="570" />
+        <di:waypoint x="2045" y="290" />
+        <di:waypoint x="2085" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15">
+        <di:waypoint x="2140" y="325" />
+        <di:waypoint x="2140" y="625" />
+        <di:waypoint x="1820" y="625" />
+        <di:waypoint x="1820" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16">
+        <di:waypoint x="2195" y="570" />
+        <di:waypoint x="2282" y="570" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

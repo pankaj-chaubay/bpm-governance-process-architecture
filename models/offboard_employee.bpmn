@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Process_P04_1_4" targetNamespace="https://example.org/aurora/processes">
+  <bpmn:collaboration id="Collab_Process_P04_1_4">
+    <bpmn:participant id="Pool_Process_P04_1_4" name="Offboard employee" processRef="Process_P04_1_4" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P04_1_4" name="Offboard employee" isExecutable="false">
+    <bpmn:documentation>Owner: HR Operations Lead; Version: 0.8; Catalog ID: P04.1.4</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_Process_P04_1_4">
+      <bpmn:lane id="Lane_0" name="Line manager">
+        <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>notify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>exit</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="HR operations">
+        <bpmn:flowNodeRef>term</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_ret</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>final</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="IT service desk">
+        <bpmn:flowNodeRef>ret</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>revoke</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start" name="Resignation received">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="notify" name="Inform HR operations">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="term" name="Termination letter">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_ret" name="Company equipment issued">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ret" name="Collect equipment">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_merge">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="revoke" name="Revoke system access">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="final" name="Run final payroll">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="exit" name="Hold exit interview">
+    </bpmn:userTask>
+    <bpmn:endEvent id="end">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="notify" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="notify" targetRef="term" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="term" targetRef="g_ret" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="g_ret" targetRef="ret" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="g_ret" targetRef="g_merge" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ret" targetRef="g_merge" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="g_merge" targetRef="revoke" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="revoke" targetRef="final" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="final" targetRef="end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Process_P04_1_4">
+    <bpmndi:BPMNPlane id="Plane_Process_P04_1_4" bpmnElement="Collab_Process_P04_1_4">
+      <bpmndi:BPMNShape id="Pool_Process_P04_1_4_di" bpmnElement="Pool_Process_P04_1_4" isHorizontal="true">
+        <dc:Bounds x="60" y="80" width="1600" height="500" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0_di" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="90" y="80" width="1570" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="90" y="300" width="1570" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_2_di" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="90" y="440" width="1570" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="202" y="124" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="notify_di" bpmnElement="notify">
+        <dc:Bounds x="325" y="155" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="term_di" bpmnElement="term">
+        <dc:Bounds x="485" y="335" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_ret_di" bpmnElement="g_ret" isMarkerVisible="true">
+        <dc:Bounds x="675" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ret_di" bpmnElement="ret">
+        <dc:Bounds x="805" y="475" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_merge_di" bpmnElement="g_merge" isMarkerVisible="true">
+        <dc:Bounds x="995" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="revoke_di" bpmnElement="revoke">
+        <dc:Bounds x="1125" y="475" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="final_di" bpmnElement="final">
+        <dc:Bounds x="1285" y="335" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="exit_di" bpmnElement="exit">
+        <dc:Bounds x="165" y="202" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="1482" y="352" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="238" y="142" />
+        <di:waypoint x="282" y="142" />
+        <di:waypoint x="282" y="190" />
+        <di:waypoint x="325" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="435" y="190" />
+        <di:waypoint x="460" y="190" />
+        <di:waypoint x="460" y="370" />
+        <di:waypoint x="485" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="595" y="370" />
+        <di:waypoint x="675" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="725" y="370" />
+        <di:waypoint x="765" y="370" />
+        <di:waypoint x="765" y="510" />
+        <di:waypoint x="805" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="725" y="370" />
+        <di:waypoint x="995" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="915" y="510" />
+        <di:waypoint x="955" y="510" />
+        <di:waypoint x="955" y="370" />
+        <di:waypoint x="995" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="1045" y="370" />
+        <di:waypoint x="1085" y="370" />
+        <di:waypoint x="1085" y="510" />
+        <di:waypoint x="1125" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1235" y="510" />
+        <di:waypoint x="1260" y="510" />
+        <di:waypoint x="1260" y="370" />
+        <di:waypoint x="1285" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1395" y="370" />
+        <di:waypoint x="1482" y="370" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

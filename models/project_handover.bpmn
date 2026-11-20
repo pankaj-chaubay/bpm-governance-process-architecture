@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Process_P01_2_3" targetNamespace="https://example.org/aurora/processes">
+  <bpmn:collaboration id="Collab_Process_P01_2_3">
+    <bpmn:participant id="Pool_Process_P01_2_3" name="Hand over project from development to construction" processRef="Process_P01_2_3" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P01_2_3" name="Hand over project from development to construction" isExecutable="false">
+    <bpmn:documentation>Owner: Head of Project Development; Version: 1.0; Catalog ID: P01.2.3</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_Process_P01_2_3">
+      <bpmn:lane id="Lane_0" name="Project developer">
+        <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>pack</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>fix</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Handover board">
+        <bpmn:flowNodeRef>board</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_dec</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end_hold</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="Construction manager">
+        <bpmn:flowNodeRef>check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_comp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>sign</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end_ok</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start" name="Permits and grid secured">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="pack" name="Prepare handover package">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="check" name="Check package completeness">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_comp" name="Package complete?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="fix" name="Complete missing documents">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="board" name="Review handover at board">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_dec" name="Handover approved?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="sign" name="Sign handover protocol">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="end_ok" name="Project in construction">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="end_hold" name="Project on hold">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="pack" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="pack" targetRef="check" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="check" targetRef="g_comp" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="g_comp" targetRef="board" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="g_comp" targetRef="fix" name="No" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="fix" targetRef="check" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="board" targetRef="g_dec" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="g_dec" targetRef="sign" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="g_dec" targetRef="end_hold" name="No" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="sign" targetRef="end_ok" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Process_P01_2_3">
+    <bpmndi:BPMNPlane id="Plane_Process_P01_2_3" bpmnElement="Collab_Process_P01_2_3">
+      <bpmndi:BPMNShape id="Pool_Process_P01_2_3_di" bpmnElement="Pool_Process_P01_2_3" isHorizontal="true">
+        <dc:Bounds x="60" y="80" width="1440" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0_di" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="90" y="80" width="1410" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="90" y="220" width="1410" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_2_di" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="90" y="360" width="1410" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="202" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="pack_di" bpmnElement="pack">
+        <dc:Bounds x="325" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="check_di" bpmnElement="check">
+        <dc:Bounds x="485" y="395" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_comp_di" bpmnElement="g_comp" isMarkerVisible="true">
+        <dc:Bounds x="675" y="405" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="fix_di" bpmnElement="fix">
+        <dc:Bounds x="805" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="board_di" bpmnElement="board">
+        <dc:Bounds x="805" y="255" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_dec_di" bpmnElement="g_dec" isMarkerVisible="true">
+        <dc:Bounds x="995" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sign_di" bpmnElement="sign">
+        <dc:Bounds x="1125" y="395" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_ok_di" bpmnElement="end_ok">
+        <dc:Bounds x="1322" y="412" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_hold_di" bpmnElement="end_hold">
+        <dc:Bounds x="1162" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="238" y="150" />
+        <di:waypoint x="325" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="435" y="150" />
+        <di:waypoint x="460" y="150" />
+        <di:waypoint x="460" y="430" />
+        <di:waypoint x="485" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="595" y="430" />
+        <di:waypoint x="675" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="725" y="430" />
+        <di:waypoint x="765" y="430" />
+        <di:waypoint x="765" y="290" />
+        <di:waypoint x="805" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="725" y="430" />
+        <di:waypoint x="765" y="430" />
+        <di:waypoint x="765" y="150" />
+        <di:waypoint x="805" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="860" y="185" />
+        <di:waypoint x="860" y="485" />
+        <di:waypoint x="540" y="485" />
+        <di:waypoint x="540" y="465" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="915" y="290" />
+        <di:waypoint x="995" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1045" y="290" />
+        <di:waypoint x="1085" y="290" />
+        <di:waypoint x="1085" y="430" />
+        <di:waypoint x="1125" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1045" y="290" />
+        <di:waypoint x="1162" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1235" y="430" />
+        <di:waypoint x="1322" y="430" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

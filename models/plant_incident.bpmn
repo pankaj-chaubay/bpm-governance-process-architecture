@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Process_P03_1_1" targetNamespace="https://example.org/aurora/processes">
+  <bpmn:collaboration id="Collab_Process_P03_1_1">
+    <bpmn:participant id="Pool_Process_P03_1_1" name="Handle plant incident" processRef="Process_P03_1_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P03_1_1" name="Handle plant incident" isExecutable="false">
+    <bpmn:documentation>Owner: Head of Asset Operations; Version: 2.1; Catalog ID: P03.1.1</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_Process_P03_1_1">
+      <bpmn:lane id="Lane_0" name="Control room">
+        <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>log</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>diag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_remote</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>disp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>verify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_major</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_merge2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>close</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Field technician">
+        <bpmn:flowNodeRef>repair</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="Asset manager">
+        <bpmn:flowNodeRef>rca</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start" name="Alarm raised in SCADA">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="log" name="Log incident">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="diag" name="Diagnose fault remotely">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_remote" name="Fixed remotely?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="disp" name="Dispatch field technician">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="repair" name="Fix fault on site">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_merge">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="verify" name="Verify plant output restored">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_major" name="Major incident?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="rca" name="Document root cause">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="g_merge2">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="close" name="Close incident">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="end" name="Incident closed">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="log" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="log" targetRef="diag" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="diag" targetRef="g_remote" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="g_remote" targetRef="g_merge" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="g_remote" targetRef="disp" name="No" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="disp" targetRef="repair" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="repair" targetRef="g_merge" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="g_merge" targetRef="verify" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="verify" targetRef="g_major" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="g_major" targetRef="rca" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="g_major" targetRef="g_merge2" name="No" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="rca" targetRef="g_merge2" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="g_merge2" targetRef="close" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="close" targetRef="end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Process_P03_1_1">
+    <bpmndi:BPMNPlane id="Plane_Process_P03_1_1" bpmnElement="Collab_Process_P03_1_1">
+      <bpmndi:BPMNShape id="Pool_Process_P03_1_1_di" bpmnElement="Pool_Process_P03_1_1" isHorizontal="true">
+        <dc:Bounds x="60" y="80" width="2240" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0_di" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="90" y="80" width="2210" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="90" y="220" width="2210" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_2_di" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="90" y="360" width="2210" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="202" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="log_di" bpmnElement="log">
+        <dc:Bounds x="325" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="diag_di" bpmnElement="diag">
+        <dc:Bounds x="485" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_remote_di" bpmnElement="g_remote" isMarkerVisible="true">
+        <dc:Bounds x="675" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="disp_di" bpmnElement="disp">
+        <dc:Bounds x="805" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="repair_di" bpmnElement="repair">
+        <dc:Bounds x="965" y="255" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_merge_di" bpmnElement="g_merge" isMarkerVisible="true">
+        <dc:Bounds x="1155" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="verify_di" bpmnElement="verify">
+        <dc:Bounds x="1285" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_major_di" bpmnElement="g_major" isMarkerVisible="true">
+        <dc:Bounds x="1475" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rca_di" bpmnElement="rca">
+        <dc:Bounds x="1605" y="395" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_merge2_di" bpmnElement="g_merge2" isMarkerVisible="true">
+        <dc:Bounds x="1795" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="close_di" bpmnElement="close">
+        <dc:Bounds x="1925" y="115" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="2122" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="238" y="150" />
+        <di:waypoint x="325" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="435" y="150" />
+        <di:waypoint x="485" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="595" y="150" />
+        <di:waypoint x="675" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="725" y="150" />
+        <di:waypoint x="1155" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="725" y="150" />
+        <di:waypoint x="805" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="915" y="150" />
+        <di:waypoint x="940" y="150" />
+        <di:waypoint x="940" y="290" />
+        <di:waypoint x="965" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="1075" y="290" />
+        <di:waypoint x="1115" y="290" />
+        <di:waypoint x="1115" y="150" />
+        <di:waypoint x="1155" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1205" y="150" />
+        <di:waypoint x="1285" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1395" y="150" />
+        <di:waypoint x="1475" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1525" y="150" />
+        <di:waypoint x="1565" y="150" />
+        <di:waypoint x="1565" y="430" />
+        <di:waypoint x="1605" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1525" y="150" />
+        <di:waypoint x="1795" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="1715" y="430" />
+        <di:waypoint x="1755" y="430" />
+        <di:waypoint x="1755" y="150" />
+        <di:waypoint x="1795" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="1845" y="150" />
+        <di:waypoint x="1925" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="2035" y="150" />
+        <di:waypoint x="2122" y="150" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
