@@ -1,0 +1,24 @@
+name: Process governance checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Tests
+        run: pytest -q
+      - name: Models match their sources
+        run: |
+          python -m bpmtools build-models
+          git diff --exit-code models/
+      - name: Governance check (fails if a released process breaks a rule)
+        run: python -m bpmtools check --out /tmp/reports
